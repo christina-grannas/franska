@@ -1,0 +1,628 @@
+<!doctype html>
+<html lang="sv">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kapitel 10 – Il faut faire le ménage !</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#fbfbf8; --surface:#ffffff; --ink:#222222; --muted:#5f6068; --line:#e4e2da;
+  --maroon:#7a1f3d; --on-maroon:#ffffff; --yellow:#f3d34a; --yellow-soft:#fbf1c2; --gold:#c4a22a;
+  --ok:#1d6b45; --ok-bg:#e2f2e9; --bad:#a8261f; --bad-bg:#fbe6e4; --warn:#7a5600; --warn-bg:#fff1c7;
+  --field:#f4f3ee;
+  --display:"Anton","Impact","Arial Narrow Bold",sans-serif;
+  --body:"Atkinson Hyperlegible",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
+  color-scheme:light;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#16161a; --surface:#1f2025; --ink:#efede6; --muted:#a6a7b0; --line:#33343c;
+    --maroon:#e0718f; --on-maroon:#1b0b11; --yellow:#e9c63e; --yellow-soft:#3a3218; --gold:#b7972a;
+    --ok:#6fd6a2; --ok-bg:#15301f; --bad:#ff958b; --bad-bg:#3a1b1a; --warn:#f2cd6b; --warn-bg:#382d12;
+    --field:#26272d;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#16161a; --surface:#1f2025; --ink:#efede6; --muted:#a6a7b0; --line:#33343c;
+  --maroon:#e0718f; --on-maroon:#1b0b11; --yellow:#e9c63e; --yellow-soft:#3a3218; --gold:#b7972a;
+  --ok:#6fd6a2; --ok-bg:#15301f; --bad:#ff958b; --bad-bg:#3a1b1a; --warn:#f2cd6b; --warn-bg:#382d12;
+  --field:#26272d;
+  color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*,*::before,*::after{box-sizing:inherit}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:17px;line-height:1.5;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--paper)}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,input:focus-visible,summary:focus-visible{outline:3px solid var(--yellow);outline-offset:2px}
+.wrap{max-width:680px;margin:0 auto;padding:0 18px}
+
+/* Hero – borrowed from the book's chapter opener */
+.hero{padding:26px 0 14px;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;align-items:center}
+.chap{position:relative;font-family:var(--display);color:var(--maroon);font-size:64px;line-height:1;padding:6px 14px}
+.chap::before,.chap::after{content:"";position:absolute;width:20px;height:6px;border-radius:6px;background:var(--yellow)}
+.chap::before{left:-8px;top:12px;transform:rotate(-30deg);box-shadow:4px 44px 0 var(--yellow)}
+.chap::after{right:-8px;top:12px;transform:rotate(30deg);box-shadow:-4px 44px 0 var(--yellow)}
+h1{font-family:var(--display);font-weight:400;text-transform:uppercase;font-size:clamp(30px,8.4vw,48px);line-height:.98;margin:0;letter-spacing:.01em}
+.countdown{grid-column:1 / -1;margin:12px 0 0;color:var(--muted)}
+.countdown b{color:var(--ink)}
+.tools{grid-column:1 / -1;display:flex;gap:8px;margin-top:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:15px}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+
+nav.tabs{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--paper);border-bottom:2px solid var(--ink)}
+nav.tabs .inner{display:flex;gap:4px;overflow-x:auto;max-width:680px;margin:0 auto;padding:8px 18px 0;scrollbar-width:none}
+nav.tabs .inner::-webkit-scrollbar{display:none}
+nav.tabs button{flex:none;border:none;background:none;padding:8px 12px 10px;font-weight:700;color:var(--muted);border-bottom:4px solid transparent;margin-bottom:-2px}
+nav.tabs button[aria-selected="true"]{color:var(--ink);border-bottom-color:var(--maroon)}
+
+main{padding:18px 0 56px}
+h2{font-family:var(--display);font-weight:400;font-size:28px;line-height:1.1;margin:8px 0 4px}
+p.lead{margin:0 0 14px;color:var(--muted)}
+
+.rule{background:var(--yellow-soft);border:3px solid var(--gold);border-radius:12px;padding:14px 16px;margin:12px 0 18px}
+.rule p{margin:0 0 6px}.rule p:last-child{margin:0}
+.rule .fr{font-weight:700}
+
+.menu{display:grid;gap:8px}
+.mi{display:grid;grid-template-columns:44px 1fr;gap:2px 12px;align-items:center;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+.mi:hover{border-color:var(--ink)}
+.mi .ico{grid-row:span 2;font-size:28px;text-align:center}
+.mi b{font-size:18px}
+.mi small{color:var(--muted);font-size:15px;line-height:1.35}
+
+.check{list-style:none;padding:0;margin:8px 0 18px;display:grid;gap:6px}
+.check li{display:flex;align-items:center;gap:10px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px 10px}
+.check input{width:22px;height:22px;accent-color:var(--maroon);flex:none}
+.check label{flex:1}
+.check .go{border:none;background:var(--field);border-radius:8px;padding:6px 10px;font-size:15px;font-weight:700}
+.check li.done label{text-decoration:line-through;color:var(--muted)}
+
+.big-cta{display:block;width:100%;background:var(--maroon);color:var(--on-maroon);border:none;border-radius:14px;padding:16px;font-family:var(--display);font-size:24px;letter-spacing:.02em;margin:6px 0 10px}
+.ghost-cta{display:block;width:100%;background:var(--surface);border:2px solid var(--ink);border-radius:14px;padding:12px;font-weight:700;margin-bottom:10px}
+.note{color:var(--muted);font-size:15px}
+
+/* Quiz */
+.qtop{display:flex;align-items:center;gap:12px}
+.qtop .count{margin-left:auto;color:var(--muted);font-variant-numeric:tabular-nums}
+.link{border:none;background:none;padding:6px 0;font-weight:700;color:var(--maroon)}
+.bar{height:8px;background:var(--line);border-radius:4px;overflow:hidden;margin:8px 0 14px}
+.bar span{display:block;height:100%;background:var(--maroon);transition:width .25s}
+.qcard{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
+.sub{margin:0 0 4px;color:var(--muted);font-size:15px}
+.prompt{font-size:clamp(24px,6.6vw,30px);font-weight:700;line-height:1.2;margin:2px 0 14px;overflow-wrap:anywhere}
+.prompt.long{font-size:21px}
+.hint{margin:-6px 0 12px;color:var(--muted);font-size:15px}
+.hint summary{cursor:pointer;color:var(--maroon);font-weight:700}
+.bigplay{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:22px;border-radius:14px;border:2px dashed var(--maroon);background:var(--field);font-size:20px;font-weight:700;margin:4px 0 14px}
+input.ans{width:100%;font:inherit;font-size:21px;padding:12px 14px;border-radius:12px;border:2px solid var(--line);background:var(--field);color:var(--ink)}
+input.ans:focus{outline:none;border-color:var(--maroon)}
+input.ans:disabled{opacity:.85}
+.accents{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+.accents button{min-width:40px;height:40px;border-radius:9px;border:1px solid var(--line);background:var(--surface);font-size:19px}
+.opts{display:grid;gap:8px}
+.opt{text-align:left;padding:13px 14px;border-radius:12px;border:2px solid var(--line);background:var(--field);font-size:18px;line-height:1.3}
+.opt:disabled{cursor:default}
+.opt.right{border-color:var(--ok);background:var(--ok-bg)}
+.opt.wrong{border-color:var(--bad);background:var(--bad-bg)}
+.actions{display:flex;gap:10px;justify-content:flex-end;margin-top:14px;flex-wrap:wrap}
+.btn{font-weight:700;padding:12px 18px;border-radius:12px;border:1px solid var(--line);background:var(--surface)}
+.btn.primary{background:var(--maroon);color:var(--on-maroon);border-color:var(--maroon)}
+.fb{display:none;margin-top:14px;padding:12px 14px;border-radius:12px;line-height:1.4}
+.fb.show{display:flex;gap:10px;align-items:flex-start}
+.fb .txt{flex:1}
+.fb.ok{background:var(--ok-bg)} .fb.ok strong{color:var(--ok)}
+.fb.warn{background:var(--warn-bg)} .fb.warn strong{color:var(--warn)}
+.fb.bad{background:var(--bad-bg)} .fb.bad strong{color:var(--bad)}
+.fb .ans-show{display:block;font-size:19px;font-weight:700;margin-top:2px}
+.speak{border:none;background:var(--surface);border-radius:999px;width:42px;height:42px;font-size:20px;flex:none;box-shadow:inset 0 0 0 1px var(--line)}
+
+.result{text-align:center;padding:26px 18px}
+.result .score{font-family:var(--display);font-size:72px;line-height:1;color:var(--maroon)}
+.miss-list{list-style:none;padding:0;margin:16px 0 0;text-align:left;display:grid;gap:6px}
+.miss-list li{display:flex;gap:10px;align-items:center;background:var(--field);border-radius:10px;padding:8px 10px}
+.miss-list .q{color:var(--muted);font-size:15px;display:block}
+.miss-list .a{font-weight:700;display:block}
+.miss-list li > span{flex:1}
+
+/* Flashcards */
+.flash{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;width:100%;min-height:230px;padding:24px 18px;border-radius:16px;border:1px solid var(--line);background:var(--surface);text-align:center}
+.flash .lab{color:var(--muted);font-size:14px}
+.flash .front{font-size:clamp(24px,7vw,32px);font-weight:700;line-height:1.2}
+.flash .back{font-size:22px;color:var(--maroon);font-weight:700;border-top:2px dashed var(--line);padding-top:12px;width:100%}
+.flash .tap{color:var(--muted);font-size:15px}
+.cardbar{display:flex;gap:10px;align-items:center;margin-top:12px}
+.cardbar .grow{flex:1;display:flex;gap:10px;justify-content:flex-end}
+
+/* Word list */
+.wl-tools{display:flex;gap:8px;flex-wrap:wrap;margin:8px 0 12px}
+.wl{list-style:none;margin:0;padding:0;border-top:1px solid var(--line)}
+.wl li{display:grid;grid-template-columns:1fr 1fr 42px;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.wl .f{font-weight:700}
+.wl .hide{color:transparent;background:var(--field);border-radius:6px;cursor:pointer;user-select:none}
+.wl .hide::after{content:"visa";color:var(--muted);font-size:13px;font-weight:400}
+.wl .hide > span{display:none}
+
+/* Verb tables */
+.vtabs{display:grid;gap:14px}
+.vt{background:var(--yellow-soft);border:3px solid var(--gold);border-radius:12px;padding:12px 14px}
+.vt h3{margin:0 0 8px;font-size:18px}
+.vt .row{display:grid;grid-template-columns:96px 1fr;gap:8px;align-items:center;margin-bottom:6px}
+.vt .row span{font-weight:700}
+.vt input{width:100%;font:inherit;font-size:18px;padding:8px 10px;border-radius:9px;border:2px solid var(--line);background:var(--surface);color:var(--ink)}
+.vt input.ok{border-color:var(--ok);background:var(--ok-bg)}
+.vt input.warn{border-color:var(--warn);background:var(--warn-bg)}
+.vt input.bad{border-color:var(--bad);background:var(--bad-bg)}
+.vt .key{font-size:14px;color:var(--bad);margin:-2px 0 6px 104px;min-height:0}
+
+@media (prefers-reduced-motion: reduce){.bar span{transition:none}}
+@media (max-width:420px){.chap{font-size:52px;padding:4px 10px}.vt .row{grid-template-columns:82px 1fr}.vt .key{margin-left:90px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="hero">
+    <div class="chap" aria-hidden="true">10</div>
+    <h1>Il faut faire le ménage !</h1>
+    <p class="countdown" id="countdown"></p>
+    <div class="tools">
+      <button class="chip" id="soundBtn" aria-pressed="true">🔊 Läs upp franskan</button>
+      <button class="chip" id="slowBtn" aria-pressed="false">🐢 Långsamt</button>
+    </div>
+  </header>
+</div>
+<nav class="tabs" aria-label="Avsnitt"><div class="inner" id="tabs" role="tablist"></div></nav>
+<div class="wrap"><main id="main"></main></div>
+
+<script>
+/* ---------- Data ---------- */
+const GLOS=[
+['il faut','man måste, vi måste'],['faire le ménage','städa'],['partager','dela'],['l’état','tillstånd','m'],
+['catastrophique','katastrofal'],['la salle de bains','badrum'],['sentir','lukta'],['mauvais','illa, dålig'],
+['la cuisine','kök'],['la vaisselle','porslin, disk'],['propre','ren'],['la chambre à coucher','sovrum'],
+['en désordre','stökigt'],['le salon','vardagsrum'],['couvert, couverte','täckt'],['la poussière','damm'],
+['Venez !','Kom! (till flera)'],['les gars','killar (vardagligt)'],['Qu’est-ce qui se passe ?','Vad händer?'],
+['se passer','hända'],['plaisanter','skämta'],['dégueulasse','äcklig'],['trouvé','hittat'],['le cafard','kackerlacka'],
+['agir','agera'],['Pas question !','Det kommer inte på fråga!'],['venir de …','just ha …'],
+['Mon chien vient de mourir.','Min hund har just dött.'],['avoir le cafard','vara deppig'],['fini','avslutat, slut'],
+['réviser','läsa på, plugga'],['prochain, prochaine','nästa'],['l’examen','prov, tenta','m'],['proposer','föreslå'],
+['On va acheter …','Vi ska köpa …'],['choisi','valt'],['cher, chère','dyr'],['la tâche ménagère','hushållssyssla'],
+['faire la lessive','tvätta'],['faire la vaisselle','diska'],['repasser','stryka'],['faire le lit','bädda'],
+['passer l’aspirateur','dammsuga'],['faire les courses','handla'],['être d’accord','hålla med'],['tout de suite','genast'],
+['le commander','beställa den'],['programmé','programmerat'],['préparer le dîner','laga middag'],
+['laver notre linge','tvätta våra kläder'],['ils rentrent chez eux','de kommer hem'],['celle-ci','den här'],
+['C’est vrai.','Det är sant.'],['le génie','geni'],['l’informatique','data','f'],['les notes','anteckningar'],
+['les ordures','sopor'],['Quoi ?','Vad?'],['crétin, crétine','idiot, dumskalle'],['jeter à la poubelle','kasta bort'],
+['jeté','kastat'],['la poubelle','soptunna'],['possible','möjligt'],['Calme-toi !','Lugna dig!'],['d’abord','först'],
+['le bruit','ljud'],['le lave-linge','tvättmaskin'],['faire du bruit','föra oväsen'],['tout à fait','helt'],
+['avoir raison','ha rätt'],['il a mis (mettre)','han har lagt (att lägga)'],['C’est la cata !','Det är en katastrof!'],
+['Tant pis !','Vad synd! / Det är inget att göra åt.'],['en plus','dessutom'],['Ça sent bon.','Det luktar gott.'],
+['la baignoire','badkar'],['en verre','i glas'],['le poisson rouge','guldfisk'],['mettre la table','duka'],
+['débarrasser la table','duka av'],['nettoyer les toilettes','städa toaletten'],['jeter les ordures','kasta soporna'],
+['la buanderie','tvättstuga'],['le couloir','hall, korridor']
+];
+const PHRASES=[
+['Kom nu killar!','Venez, les gars !'],['Vad är det som händer?','Qu’est-ce qui se passe ?'],
+['Vad vill du?','Qu’est-ce que tu veux ?'],['Skojar du?','Tu plaisantes ?'],
+['Den är äcklig!','Il est dégueulasse !',['Elle est dégueulasse !','C’est dégueulasse !']],
+['Det kommer inte på fråga!','Pas question !'],['Jag är deppig.','J’ai le cafard.'],
+['Jag håller med.','Je suis d’accord.'],['Det är sant.','C’est vrai.'],['Vad?','Quoi ?'],
+['Det är inte möjligt!','Ce n’est pas possible !',['C’est pas possible !','Pas possible !']],
+['Lugna dig!','Calme-toi !'],['Du har helt rätt.','Tu as tout à fait raison.'],
+['Det är inget att göra åt.','Tant pis !']
+];
+const TRANS10=[
+{fr:'L’appartement est dans un état catastrophique.',sv:'Lägenheten är i ett katastrofalt skick.'},
+{fr:'Il faut faire le ménage.',sv:'Vi måste städa.'},
+{fr:'J’ai trouvé trois cafards dans la cuisine !',sv:'Jag har hittat tre kackerlackor i köket!'},
+{fr:'Il faut agir !',sv:'Vi måste agera! (göra något)'},
+{fr:'Il faut …',sv:'Man måste … / Vi måste …'},
+{fr:'Il ne faut pas …',sv:'Man får inte …'}
+];
+const CHORES=[
+{e:'🛒',fr:'faire les courses',sv:'handla',pres:'handlar',je:['fais','les courses']},
+{e:'🗑️',fr:'jeter les ordures',sv:'kasta soporna',pres:'kastar soporna',je:['jette','les ordures']},
+{e:'🍳',fr:'faire la cuisine',sv:'laga mat',pres:'lagar mat',je:['fais','la cuisine']},
+{e:'👔',fr:'repasser',sv:'stryka',pres:'stryker',je:['repasse','']},
+{e:'🍽️',fr:'faire la vaisselle',sv:'diska',pres:'diskar',je:['fais','la vaisselle']},
+{e:'🚽',fr:'nettoyer les toilettes',sv:'städa toaletten',pres:'städar toaletten',je:['nettoie','les toilettes']},
+{e:'🧸',fr:'ranger la chambre',sv:'städa rummet',pres:'städar rummet',je:['range','ma chambre'],jeAlt:['la chambre'],alt:['ranger sa chambre','ranger ma chambre']},
+{e:'🛏️',fr:'faire le lit',sv:'bädda',pres:'bäddar',je:['fais','mon lit'],jeAlt:['le lit'],alt:['faire son lit']},
+{e:'🍴',fr:'mettre la table',sv:'duka',pres:'dukar',je:['mets','la table']},
+{e:'🧽',fr:'débarrasser la table',sv:'duka av',pres:'dukar av',je:['débarrasse','la table']},
+{e:'🌪️',fr:'passer l’aspirateur',sv:'dammsuga',pres:'dammsuger',je:['passe','l’aspirateur']},
+{e:'🧺',fr:'faire la lessive',sv:'tvätta (kläder)',pres:'tvättar',je:['fais','la lessive']}
+];
+const FREQ=[{fr:'toujours',sv:'alltid'},{fr:'souvent',sv:'ofta'},{fr:'quelquefois',sv:'ibland'},{fr:'rarement',sv:'sällan'},{fr:'ne … jamais',sv:'aldrig',neg:true}];
+const ROOMS=[
+{e:'🍳',sv:'kök',fr:'une cuisine'},{e:'🛋️',sv:'vardagsrum',fr:'un salon'},{e:'🍽️',sv:'matsal',fr:'une salle à manger'},
+{e:'🧺',sv:'tvättstuga',fr:'une buanderie'},{e:'🛁',sv:'badrum',fr:'une salle de bains'},{e:'🛏️',sv:'sovrum',fr:'une chambre'},
+{e:'💻',sv:'arbetsrum',fr:'un bureau'},{e:'🚪',sv:'hall',fr:'un couloir'},{e:'🌿',sv:'terrass',fr:'une terrasse'}
+];
+const IF11=[
+['on est fatigué','man är trött','Il faut se reposer.','Man måste vila.'],
+['on a soif','man är törstig','Il faut boire quelque chose.','Man måste dricka något.'],
+['on a de mauvaises notes à l’école','man har dåliga betyg i skolan','Il faut faire les devoirs.','Man måste göra läxorna.'],
+['on a mal aux dents','man har tandvärk','Il faut aller chez le dentiste.','Man måste gå till tandläkaren.'],
+['c’est l’anniversaire d’un ami','det är en kompis födelsedag','Il faut acheter un cadeau.','Man måste köpa en present.'],
+['toute la vaisselle est sale','all disk är smutsig','Il faut faire la vaisselle.','Man måste diska.'],
+['il pleut','det regnar','Il faut prendre un parapluie.','Man måste ta ett paraply.'],
+['on a faim','man är hungrig','Il faut manger quelque chose.','Man måste äta något.'],
+['le frigo est vide','kylskåpet är tomt','Il faut faire les courses.','Man måste handla.'],
+['le salon est couvert de poussière','vardagsrummet är täckt av damm','Il faut passer l’aspirateur.','Man måste dammsuga.']
+];
+const IF12=[
+['Avant 18 ans','Före 18 år','il ne faut pas boire d’alcool.','Man får inte dricka alkohol.'],
+['Dans l’avion','I flygplanet','il ne faut pas utiliser son portable.','Man får inte använda sin mobil.'],
+['En moto','På motorcykel','il faut porter un casque.','Man måste ha hjälm.'],
+['À la bibliothèque','På biblioteket','il ne faut pas parler fort.','Man får inte prata högt.'],
+['Pour être en forme','För att vara i form','il faut faire du sport.','Man måste träna.'],
+['Au zoo','På zoo','il ne faut pas nourrir les animaux.','Man får inte mata djuren.'],
+['À la piscine','På badhuset','il faut prendre une douche.','Man måste duscha.'],
+['Tous les jours','Varje dag','il faut se brosser les dents.','Man måste borsta tänderna.'],
+['Pendant les cours de français','Under franskalektionerna','il ne faut pas parler suédois.','Man får inte prata svenska.']
+];
+const PR=[['je','jag',0],['tu','du',1],['il','han',2],['elle','hon',2],['on','man',2],['nous','vi',3],['vous','ni',4],['ils','de',5],['elles','de',5]];
+const TPR=['je','tu','il, elle, on','nous','vous','ils, elles'];
+const VERBS=[
+{inf:'venir',sv:'kommer',t:'presens',title:'venir – att komma (presens)',f:['viens','viens','vient','venons','venez','viennent']},
+{inf:'finir',sv:'har slutat',t:'passé composé',title:'finir – att sluta (passé composé)',f:['ai fini','as fini','a fini','avons fini','avez fini','ont fini']},
+{inf:'vendre',sv:'har sålt',t:'passé composé',title:'vendre – att sälja (passé composé)',f:['ai vendu','as vendu','a vendu','avons vendu','avez vendu','ont vendu']}
+];
+const VENIR_S=[
+['Pourquoi tu ne ',' jamais à la plage ?','viens'],['Nous ',' goûter ton gâteau.','venons'],
+['On ',' pour te remercier.','vient'],['Vincent ',' avec sa sœur.','vient'],['Vous ',' quel jour ?','venez'],
+['Tu ',' avec moi en boîte ?','viens'],['Mes grands-parents ne ',' pas ce weekend.','viennent'],
+['Tu ',' chez moi, ce soir ?','viens'],['Hamid ne ',' pas. Il est malade.','vient'],
+['Victor et Corinne ',' avec leur correspondant suédois.','viennent'],['Je ',' avec ma petite amie.','viens'],
+['Mon chien ',' de mourir.','vient']
+];
+const PC_S=[
+['Nous ',' nos devoirs. (finir)','avons fini'],['Il ',' son vélo. (vendre)','a vendu'],
+['Tu ',' le gâteau ? (finir)','as fini'],['Mes parents ',' la voiture. (vendre)','ont vendu'],
+['J’',' mon portable. (vendre)','ai vendu'],['Vous ',' le ménage ? (finir)','avez fini'],
+['Elles ',' le film. (finir)','ont fini'],['On ',' la maison. (vendre)','a vendu'],
+['J’',' mes devoirs. (finir)','ai fini'],['Tu ',' ton vélo ? (vendre)','as vendu']
+];
+const TEST_DATE=new Date(2026,9,21);
+
+/* ---------- Helpers ---------- */
+const $=s=>document.querySelector(s);
+function h(tag,props,...kids){const el=document.createElement(tag);if(props)for(const[k,v]of Object.entries(props)){if(v==null||v===false)continue;if(k==='class')el.className=v;else if(k.startsWith('on'))el.addEventListener(k.slice(2),v);else if(v===true)el.setAttribute(k,'');else el.setAttribute(k,v)}for(const c of kids.flat()){if(c==null||c===false||c==='')continue;el.append(c.nodeType?c:document.createTextNode(c))}return el}
+const uniq=a=>[...new Set(a)];
+const shuffle=a=>{a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.random()*(i+1)|0;[a[i],a[j]]=[a[j],a[i]]}return a};
+const take=(a,n)=>shuffle(a).slice(0,n);
+const pick=a=>a[Math.random()*a.length|0];
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const clean=s=>s.replace(/\(.*?\)/g,'').replace(/…/g,'').replace(/\s+/g,' ').trim();
+const frAns=fr=>{const b=clean(fr);return uniq([b,...b.split(',').map(x=>x.trim()).filter(Boolean)])};
+const svAns=sv=>{const b=clean(sv);return uniq([b,...b.split(/[,\/]/).map(x=>x.trim()).filter(Boolean)])};
+const gDisp=g=>g[0]+(g[2]?` (${g[2]})`:'');
+const choiceOpts=(correct,pool,n=4)=>shuffle([correct,...take(uniq(pool).filter(x=>x!==correct),n-1)]);
+
+const LS='kap10-plugg:';
+function lsGet(k,d){try{const v=localStorage.getItem(LS+k);return v?JSON.parse(v):d}catch(e){return d}}
+function lsSet(k,v){try{localStorage.setItem(LS+k,JSON.stringify(v))}catch(e){}}
+
+/* ---------- Speech ---------- */
+let soundOn=lsGet('sound',true), slow=lsGet('slow',false), frVoice=null;
+function loadVoices(){try{const v=speechSynthesis.getVoices();frVoice=v.find(x=>/^fr[-_]FR/i.test(x.lang))||v.find(x=>/^fr/i.test(x.lang))||null}catch(e){}}
+if('speechSynthesis' in window){loadVoices();speechSynthesis.onvoiceschanged=loadVoices}
+function say(t){if(!('speechSynthesis' in window)||!t)return;try{speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(t.replace(/…/g,'').replace(/\(.*?\)/g,''));u.lang='fr-FR';if(frVoice)u.voice=frVoice;u.rate=slow?.6:.9;speechSynthesis.speak(u)}catch(e){}}
+function autoSay(t){if(soundOn)say(t)}
+const speakBtn=t=>h('button',{class:'speak',type:'button','aria-label':'Lyssna på franskan',onclick:e=>{e.stopPropagation();say(t)}},'🔊');
+
+/* ---------- Grading ---------- */
+function norm(s){return s.toLowerCase().replace(/[’‘`´]/g,"'").replace(/œ/g,'oe').replace(/[!?.,;:«»"“”…()]/g,' ').replace(/-/g,' ').replace(/\s*'\s*/g,"'").replace(/\s+/g,' ').trim().replace(/(^|\s)([ldjnsc]|qu) (?=[aeiouyhéèêàâîôû])/g,"$1$2'")}
+const deacc=s=>s.normalize('NFD').replace(/[\u0300-\u036f]/g,'');
+const dropArt=s=>s.replace(/^(le |la |les |un |une |l')/,'');
+const dropSv=s=>s.replace(/^(en |ett |att )/,'');
+function lev(a,b){const m=a.length,n=b.length;if(Math.abs(m-n)>2)return 9;let p=Array.from({length:n+1},(_,j)=>j);for(let i=1;i<=m;i++){const c=[i];for(let j=1;j<=n;j++)c[j]=Math.min(p[j]+1,c[j-1]+1,p[j-1]+(a[i-1]===b[j-1]?0:1));p=c}return p[n]}
+function grade(input,it){
+  const n=norm(input);if(!n)return'empty';
+  const sv=it.lang==='sv';
+  const vars=x=>sv?[x,dropSv(x)]:(it.requireArt?[x]:[x,dropArt(x)]);
+  const A=it.answers.map(norm), N=vars(n);
+  for(const a of A)if(vars(a).some(v=>N.includes(v)))return'ok';
+  for(const a of A){const av=vars(a).map(deacc);if(N.map(deacc).some(v=>av.includes(v)))return'accent'}
+  if(it.requireArt)for(const a of A)if(deacc(dropArt(n))===deacc(dropArt(a)))return /^(un|une) /.test(n)?'article':'noart';
+  for(const a of A)for(const x of N)for(const y of vars(a)){const d=lev(deacc(x),deacc(y));if((y.length>4&&d<=1)||(y.length>12&&d<=2))return'near'}
+  return'bad';
+}
+
+/* ---------- Missed ---------- */
+const getMissed=()=>lsGet('missed',{});
+function miss(it){const m=getMissed();m[it.id]=it;lsSet('missed',m)}
+function unmiss(it){const m=getMissed();if(m[it.id]){delete m[it.id];lsSet('missed',m)}}
+
+/* ---------- Generators ---------- */
+const gen={
+ glosSF:n=>take(GLOS,n).map(g=>({id:'gsf|'+g[0],type:'write',sub:'Skriv på franska',prompt:g[1],answers:frAns(g[0]),show:gDisp(g),sayAns:clean(g[0])})),
+ glosFS:n=>take(GLOS,n).map(g=>({id:'gfs|'+g[0],type:'choice',sub:'Vad betyder det?',prompt:gDisp(g),say:clean(g[0]),options:choiceOpts(g[1],GLOS.map(x=>x[1])),correct:g[1],show:`${gDisp(g)} = ${g[1]}`,sayAns:clean(g[0])})),
+ glosListen:n=>take(GLOS,n).map(g=>({id:'gl|'+g[0],type:'choice',sub:'Lyssna – vad betyder det?',audio:clean(g[0]),options:choiceOpts(g[1],GLOS.map(x=>x[1])),correct:g[1],show:`${gDisp(g)} = ${g[1]}`,sayAns:clean(g[0])})),
+ glosFSw:n=>take(GLOS,n).map(g=>({id:'gfsw|'+g[0],type:'write',lang:'sv',sub:'Skriv på svenska',prompt:gDisp(g),say:clean(g[0]),answers:svAns(g[1]),show:g[1],sayAns:clean(g[0])})),
+ phrasesW:n=>take(PHRASES,n).map(p=>({id:'phw|'+p[0],type:'write',sub:'Säg det på franska',prompt:p[0],answers:[p[1],...(p[2]||[])],show:p[1],sayAns:p[1]})),
+ phrasesC:n=>take(PHRASES,n).map(p=>({id:'phc|'+p[0],type:'choice',sub:'Vad betyder det?',prompt:p[1],say:p[1],options:choiceOpts(p[0],PHRASES.map(x=>x[0])),correct:p[0],show:`${p[1]} = ${p[0]}`,sayAns:p[1]})),
+ phrasesL:n=>take(PHRASES,n).map(p=>({id:'phl|'+p[0],type:'choice',sub:'Lyssna – vad säger de?',audio:p[1],options:choiceOpts(p[0],PHRASES.map(x=>x[0])),correct:p[0],show:`${p[1]} = ${p[0]}`,sayAns:p[1]})),
+ choresW:n=>take(CHORES,n).map(c=>({id:'chw|'+c.fr,type:'write',sub:'Vad heter sysslan på franska?',prompt:`${c.e} ${c.sv}`,answers:[c.fr,...(c.alt||[])],show:c.fr,sayAns:c.fr})),
+ choresC:n=>take(CHORES,n).map(c=>({id:'chc|'+c.fr,type:'choice',sub:'Vilken syssla är det?',prompt:c.fr,say:c.fr,options:choiceOpts(`${c.e} ${c.sv}`,CHORES.map(x=>`${x.e} ${x.sv}`)),correct:`${c.e} ${c.sv}`,show:`${c.fr} = ${c.sv}`,sayAns:c.fr})),
+ freqW:()=>shuffle(FREQ).map(f=>({id:'fqw|'+f.fr,type:'write',sub:'Hur ofta? Skriv på franska',prompt:f.sv,answers:f.neg?['ne … jamais','jamais']:[f.fr],show:f.fr,sayAns:f.neg?'jamais':f.fr})),
+ freqS:n=>{const all=[];for(const c of CHORES)for(const f of FREQ)all.push([c,f]);return take(all,n).map(([c,f])=>{
+   const [v1,...rest]=c.pres.split(' ');const sw=`Jag ${v1} ${f.sv}${rest.length?' '+rest.join(' '):''}.`;
+   const rests=[c.je[1],...(c.jeAlt||[])];
+   const mk=r=>f.neg?`Je ne ${c.je[0]} jamais${r?' '+r:''}.`:`Je ${c.je[0]} ${f.fr}${r?' '+r:''}.`;
+   const ans=rests.map(mk);
+   return{id:`fqs|${c.fr}|${f.fr}`,type:'write',sub:'Skriv meningen på franska',prompt:sw,answers:ans,show:ans[0],sayAns:ans[0],long:true}})},
+ if11:n=>take(IF11,n).map(x=>({id:'if11|'+x[0],type:'choice',sub:'Qu’est-ce qu’il faut faire quand …',prompt:`… ${x[0]} ?`,hintSv:`Vad måste man göra när ${x[1]}?`,say:`Qu’est-ce qu’il faut faire quand ${x[0]} ?`,options:choiceOpts(x[2],IF11.map(y=>y[2])),correct:x[2],show:`${x[2]} (${x[3]})`,sayAns:x[2],long:true})),
+ if12:n=>take(IF12,n).map(x=>({id:'if12|'+x[0],type:'choice',sub:'Vilket slut passar?',prompt:`${x[0]} …`,hintSv:x[1]+' …',say:x[0],options:choiceOpts(x[2],IF12.map(y=>y[2])),correct:x[2],show:`${x[0]}, ${x[2]} (${x[3]})`,sayAns:`${x[0]}, ${x[2]}`,long:true})),
+ ifW:n=>{const pool=[...CHORES.map(c=>({sv:`Man måste ${clean(c.sv)}.`,a:[`Il faut ${c.fr}.`,...(c.alt||[]).map(a=>`Il faut ${a}.`)]})),...IF12.map(x=>({sv:x[3],a:[cap(x[2])]})),...IF11.map(x=>({sv:x[3],a:[x[2]]}))];
+   const seen=new Set();const u=pool.filter(p=>!seen.has(p.sv)&&seen.add(p.sv));
+   return take(u,n).map(p=>({id:'ifw|'+p.sv,type:'write',sub:'Översätt med il faut / il ne faut pas',prompt:p.sv,answers:p.a,show:p.a[0],sayAns:p.a[0],long:true}))},
+ venirS:n=>take(VENIR_S,n).map(x=>({id:'vs|'+x[0]+x[1],type:'write',sub:'Fyll i rätt form av venir',prompt:`${x[0]}____${x[1]}`,answers:[x[2]],show:x[0]+x[2]+x[1],sayAns:clean(x[0]+x[2]+x[1]),long:true})),
+ pcS:n=>take(PC_S,n).map(x=>({id:'pc|'+x[0]+x[1],type:'write',sub:'Fyll i passé composé (hjälpverb + particip)',prompt:`${x[0]}____${x[1]}`,answers:[x[2]],show:x[0]+x[2]+x[1],sayAns:clean(x[0]+x[2]+x[1]),long:true})),
+ drill:n=>{const all=[];for(const v of VERBS)for(const p of PR)all.push([v,p]);return take(all,n).map(([v,p])=>{const form=v.f[p[2]];const full=fullForm(p,v);
+   return{id:`dr|${p[0]}|${v.inf}`,type:'write',sub:`Böj ${v.inf} i ${v.t}`,prompt:`${p[0]} + ${v.inf}`,answers:[form,full],show:full,sayAns:full}})},
+ svfr:n=>{const all=[];for(const v of VERBS)for(const p of PR)if(p[0]!=='elles')all.push([v,p]);return take(all,n).map(([v,p])=>{
+   const full=fullForm(p,v);const answers=p[0]==='ils'?[full,fullForm(PR[8],v)]:[full];
+   return{id:`sf|${p[0]}|${v.inf}`,type:'write',sub:'Översätt till franska',prompt:cap(`${p[1]} ${v.sv}`),answers,show:full,sayAns:full}})},
+ rooms:n=>take(ROOMS,n).map(r=>({id:'rm|'+r.fr,type:'write',requireArt:true,sub:'Skriv på franska – med un eller une',prompt:`${r.e} ${r.sv}`,answers:[r.fr],show:r.fr,sayAns:r.fr})),
+ roomsL:n=>take(ROOMS,n).map(r=>({id:'rml|'+r.fr,type:'choice',sub:'Lyssna – vilket rum?',audio:r.fr,options:choiceOpts(`${r.e} ${r.sv}`,ROOMS.map(x=>`${x.e} ${x.sv}`)),correct:`${r.e} ${r.sv}`,show:`${r.fr} = ${r.sv}`,sayAns:r.fr}))
+};
+function fullForm(p,v){const form=v.f[p[2]];return(p[0]==='je'&&/^a/.test(form))?'j’'+form:`${p[0]} ${form}`}
+function mixTest(){return shuffle([...gen.glosSF(4),...gen.glosFS(2),...gen.glosListen(2),...gen.phrasesW(3),...gen.choresW(3),...gen.if11(2),...gen.if12(2),...gen.venirS(2),...gen.pcS(1),...gen.drill(2),...gen.rooms(1),...gen.freqS(1)])}
+
+/* ---------- Quiz runner ---------- */
+function accentBar(inp){const chars=['é','è','ê','à','â','ç','ù','û','î','ï','ô','œ','’'];
+  return h('div',{class:'accents','aria-label':'Franska tecken'},chars.map(c=>h('button',{type:'button',onmousedown:e=>e.preventDefault(),onclick:()=>{const s=inp.selectionStart??inp.value.length,e2=inp.selectionEnd??s;inp.value=inp.value.slice(0,s)+c+inp.value.slice(e2);inp.focus();try{inp.setSelectionRange(s+1,s+1)}catch(e){}}},c)))}
+
+function runQuiz(factory,opts={}){
+  const back=opts.back||(()=>render(state.tab));
+  let items=factory(),i=0,score=0,wrong=[];
+  const main=$('#main');
+  function show(){
+    main.replaceChildren();window.scrollTo(0,0);
+    if(i>=items.length)return done();
+    const it=items[i];let answered=false;
+    main.append(h('div',{class:'qtop'},h('button',{class:'link',onclick:()=>{speechSynthesis?.cancel?.();back()}},'‹ Tillbaka'),h('span',{class:'count'},`${i+1} av ${items.length} · rätt ${score}`)));
+    main.append(h('div',{class:'bar'},h('span',{style:`width:${i/items.length*100}%`})));
+    const card=h('section',{class:'qcard'});main.append(card);
+    card.append(h('p',{class:'sub'},it.sub));
+    if(it.audio){card.append(h('button',{class:'bigplay',type:'button',onclick:()=>say(it.audio)},'🔊 Spela upp igen'));setTimeout(()=>say(it.audio),200)}
+    if(it.prompt)card.append(h('div',{class:'prompt'+(it.long?' long':''),lang:it.say?'fr':null},it.prompt,it.say?' ':null,it.say?speakBtn(it.say):null));
+    if(it.hintSv)card.append(h('details',{class:'hint'},h('summary',null,'Visa på svenska'),it.hintSv));
+    if(it.say&&!it.audio)setTimeout(()=>autoSay(it.say),200);
+    const fb=h('div',{class:'fb',role:'status','aria-live':'polite'});
+    const actions=h('div',{class:'actions'});
+    const nextBtn=h('button',{class:'btn primary',type:'button',onclick:()=>{i++;show()}},i+1<items.length?'Nästa':'Se resultatet');
+    function finish(r){
+      answered=true;const ok=r==='ok'||r==='accent';
+      if(ok){score++;unmiss(it)}else{wrong.push(it);miss(it)}
+      const sv=it.lang==='sv';
+      const msg={ok:'Rätt!',accent:sv?'Rätt – men kolla å, ä och ö:':'Rätt – men kolla accenterna:',near:'Nästan! Kolla stavningen. Rätt svar:',article:'Fel artikel – un eller une? Rätt svar:',noart:'Glöm inte un eller une! Rätt svar:',bad:'Inte riktigt. Rätt svar:',skip:'Rätt svar:'}[r];
+      fb.className='fb show '+(r==='ok'?'ok':r==='accent'?'warn':'bad');
+      fb.replaceChildren(h('div',{class:'txt'},h('strong',null,(ok?'✓ ':'✗ ')+msg),h('span',{class:'ans-show'},it.show)),it.sayAns?speakBtn(it.sayAns):null);
+      if(it.sayAns)autoSay(it.sayAns);
+      actions.replaceChildren(nextBtn);nextBtn.focus({preventScroll:true});
+    }
+    if(it.type==='write'){
+      const inp=h('input',{class:'ans',type:'text',autocomplete:'off',autocapitalize:'off',autocorrect:'off',spellcheck:'false',lang:it.lang==='sv'?'sv':'fr','aria-label':'Ditt svar',placeholder:it.lang==='sv'?'Skriv på svenska':'Skriv på franska'});
+      const check=()=>{if(answered)return;const r=grade(inp.value,it);if(r==='empty'){inp.focus();return}inp.disabled=true;finish(r)};
+      inp.addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();check()}});
+      card.append(inp);if(it.lang!=='sv')card.append(accentBar(inp));
+      actions.append(h('button',{class:'btn',type:'button',onclick:()=>{if(!answered){inp.disabled=true;finish('skip')}}},'Vet inte'),h('button',{class:'btn primary',type:'button',onclick:check},'Rätta'));
+      card.append(fb,actions);setTimeout(()=>inp.focus({preventScroll:true}),50);
+    }else{
+      const wrap=h('div',{class:'opts'});
+      const btns=it.options.map(o=>h('button',{class:'opt',type:'button',onclick:()=>{if(answered)return;const ok=o===it.correct;btns.forEach(b=>{b.disabled=true;if(b.dataset.v===it.correct)b.classList.add('right')});if(!ok)btn(o).classList.add('wrong');finish(ok?'ok':'bad')}},o));
+      btns.forEach((b,k)=>b.dataset.v=it.options[k]);const btn=o=>btns.find(b=>b.dataset.v===o);
+      wrap.append(...btns);card.append(wrap,fb,actions);
+    }
+  }
+  function done(){
+    const pct=score/items.length;
+    if(opts.record)lsSet('lastTest',{score,total:items.length,date:Date.now()});
+    const msg=pct>=.9?'Superbra! 🎉':pct>=.7?'Bra jobbat! 💪':pct>=.5?'På god väg!':'Kör en gång till – det sitter snart.';
+    const res=h('section',{class:'qcard result'},h('div',{class:'score'},`${score}/${items.length}`),h('p',null,msg));
+    if(wrong.length){res.append(h('p',{class:'note'},'De här ska du öva mer på:'),h('ul',{class:'miss-list'},wrong.map(w=>h('li',null,h('span',null,h('span',{class:'q'},w.prompt||'(hörövning)'),h('span',{class:'a'},w.show)),w.sayAns?speakBtn(w.sayAns):null))))}
+    const acts=h('div',{class:'actions',style:'justify-content:center'});
+    if(wrong.length){const w=wrong.slice();acts.append(h('button',{class:'btn primary',onclick:()=>runQuiz(()=>shuffle(w),{back})},`Öva på de ${w.length} missade`))}
+    acts.append(h('button',{class:'btn',onclick:()=>runQuiz(factory,opts)},'Kör igen'),h('button',{class:'btn',onclick:back},'Tillbaka'));
+    res.append(acts);main.append(res);window.scrollTo(0,0);
+  }
+  show();
+}
+
+/* ---------- Flashcards ---------- */
+function runCards(factory,opts={}){
+  const back=opts.back||(()=>render(state.tab));
+  const cards=factory();let deck=shuffle(cards),rev=false,flipped=false;
+  const main=$('#main');
+  function show(){
+    main.replaceChildren();
+    main.append(h('div',{class:'qtop'},h('button',{class:'link',onclick:back},'‹ Tillbaka'),h('span',{class:'count'},`${deck.length} kort kvar`)));
+    main.append(h('div',{class:'bar'},h('span',{style:`width:${(1-deck.length/cards.length)*100}%`})));
+    if(!deck.length){main.append(h('section',{class:'qcard result'},h('div',{class:'score'},'🎉'),h('p',null,`Du kan alla ${cards.length} korten!`),h('div',{class:'actions',style:'justify-content:center'},h('button',{class:'btn primary',onclick:()=>{deck=shuffle(cards);show()}},'Kör igen'),h('button',{class:'btn',onclick:back},'Tillbaka'))));return}
+    const c=deck[0],frFirst=!rev;
+    const front=frFirst?c.fr:c.sv,backT=frFirst?c.sv:c.fr;
+    main.append(h('button',{class:'flash',type:'button',onclick:()=>{if(!flipped){flipped=true;show();if(!frFirst)autoSay(c.say||clean(c.fr))}}},
+      h('span',{class:'lab'},frFirst?'Franska':'Svenska'),h('span',{class:'front',lang:frFirst?'fr':'sv'},front),
+      flipped?h('span',{class:'back',lang:frFirst?'sv':'fr'},backT):h('span',{class:'tap'},'Tänk på svaret – tryck sedan för att vända')));
+    const bar=h('div',{class:'cardbar'},speakBtn(c.say||clean(c.fr)),h('button',{class:'chip',type:'button',onclick:()=>{rev=!rev;flipped=false;show()}},rev?'Visa franska först':'Visa svenska först'));
+    const grow=h('div',{class:'grow'});
+    if(flipped){grow.append(h('button',{class:'btn',onclick:()=>{const x=deck.shift();deck.splice(Math.min(3,deck.length),0,x);flipped=false;show()}},'Igen'),h('button',{class:'btn primary',onclick:()=>{deck.shift();flipped=false;show()}},'Kan den ✓'))}
+    else grow.append(h('button',{class:'btn primary',onclick:()=>{flipped=true;show();if(!frFirst)autoSay(c.say||clean(c.fr))}},'Vänd'));
+    bar.append(grow);main.append(bar);
+    if(frFirst&&!flipped)setTimeout(()=>autoSay(c.say||clean(c.fr)),150);
+  }
+  show();
+}
+
+/* ---------- Word list ---------- */
+function runList(rows,title){
+  const main=$('#main');let hide=null;
+  function show(){
+    main.replaceChildren(h('div',{class:'qtop'},h('button',{class:'link',onclick:()=>render(state.tab)},'‹ Tillbaka')),h('h2',null,title),
+      h('p',{class:'lead'},'Läs högt och tryck på 🔊 för att höra uttalet. Dölj en kolumn och testa dig själv.'),
+      h('div',{class:'wl-tools'},
+        h('button',{class:'chip','aria-pressed':String(hide==='sv'),onclick:()=>{hide=hide==='sv'?null:'sv';show()}},'Dölj svenskan'),
+        h('button',{class:'chip','aria-pressed':String(hide==='fr'),onclick:()=>{hide=hide==='fr'?null:'fr';show()}},'Dölj franskan')),
+      h('ul',{class:'wl'},rows.map(r=>{
+        const cell=(txt,cls,hidden,lang)=>{const el=h('span',{class:cls+(hidden?' hide':''),lang},h('span',null,txt));if(hidden)el.addEventListener('click',()=>el.classList.remove('hide'));return el};
+        return h('li',null,cell(r.fr,'f',hide==='fr','fr'),cell(r.sv,'s',hide==='sv','sv'),speakBtn(r.say||clean(r.fr)))})));
+  }
+  show();window.scrollTo(0,0);
+}
+
+/* ---------- Verb tables ---------- */
+function runTables(){
+  const main=$('#main');main.replaceChildren();window.scrollTo(0,0);
+  main.append(h('div',{class:'qtop'},h('button',{class:'link',onclick:()=>render(state.tab)},'‹ Tillbaka')),h('h2',null,'Fyll i tabellerna'),h('p',{class:'lead'},'Skriv alla former och tryck på Rätta. I passé composé skriver du hjälpverbet och participet, till exempel ”ai fini”.'));
+  const all=[];
+  const wrap=h('div',{class:'vtabs'});
+  for(const v of VERBS){
+    const box=h('div',{class:'vt'},h('h3',null,v.title));
+    v.f.forEach((form,k)=>{
+      const inp=h('input',{type:'text',autocomplete:'off',autocapitalize:'off',autocorrect:'off',spellcheck:'false',lang:'fr','aria-label':`${v.inf}, ${TPR[k]}`});
+      const key=h('div',{class:'key'});
+      box.append(h('div',{class:'row'},h('span',null,(k===0&&v.inf!=='venir')?'j’ (je)':TPR[k]),inp),key);
+      const pron=k===0&&v.inf!=='venir'?'j’':TPR[k].split(',')[0]+' ';
+      all.push({inp,key,it:{answers:[form,pron+form]},form});
+    });
+    wrap.append(box);
+  }
+  main.append(wrap);
+  main.append(h('div',{class:'actions'},
+    h('button',{class:'btn',onclick:()=>all.forEach(a=>{a.inp.value='';a.inp.className='';a.key.textContent=''})},'Töm'),
+    h('button',{class:'btn',onclick:()=>all.forEach(a=>{a.key.textContent=a.form})},'Visa svaren'),
+    h('button',{class:'btn primary',onclick:()=>{let ok=0;all.forEach(a=>{const r=grade(a.inp.value,a.it);const good=r==='ok'||r==='accent';if(good)ok++;a.inp.className=r==='ok'?'ok':r==='accent'?'warn':'bad';a.key.textContent=good&&r==='ok'?'':a.form});toast(`${ok} av ${all.length} rätt`)}},'Rätta')));
+  main.append(h('div',{class:'rule'},h('p',null,'-ir-verb får particip på -i: finir → fini'),h('p',null,'-re-verb får particip på -u: vendre → vendu'),h('p',null,'Hjälpverbet är avoir: j’ai, tu as, il a, nous avons, vous avez, ils ont')));
+}
+function toast(t){const el=h('div',{role:'status',style:'position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 18px;border-radius:999px;font-weight:700;z-index:20'},t);document.body.append(el);setTimeout(()=>el.remove(),2200)}
+
+/* ---------- Tabs ---------- */
+const mi=(ico,title,desc,run)=>h('button',{class:'mi',type:'button',onclick:run},h('span',{class:'ico','aria-hidden':'true'},ico),h('b',null,title),h('small',null,desc));
+const Q=(f,o)=>()=>runQuiz(f,o), C=f=>()=>runCards(f);
+
+const TABS=[
+{id:'start',label:'Start',render:renderStart},
+{id:'glosor',label:'Glosor',render:()=>[
+  h('h2',null,'Glosor från texten'),h('p',{class:'lead'},`${GLOS.length} ord och fraser från kapitlets ordlista.`),
+  h('div',{class:'menu'},
+   mi('🃏','Glosor som kort','Franska på ena sidan, svenska på andra. Bra att börja med.',C(()=>GLOS.map(g=>({fr:gDisp(g),sv:g[1],say:clean(g[0])})))),
+   mi('✍️','Skriv på franska','15 ord. Svenska visas, du skriver franskan.',Q(()=>gen.glosSF(15))),
+   mi('🔤','Välj rätt betydelse','15 ord. Franska visas, du väljer svenskan.',Q(()=>gen.glosFS(15))),
+   mi('📝','Skriv på svenska','15 ord. Franska visas, du skriver vad det betyder.',Q(()=>gen.glosFSw(15))),
+   mi('🎧','Hörövning','Du hör ordet och väljer vad det betyder.',Q(()=>gen.glosListen(15))),
+   mi('📋','Hela ordlistan','Läs högt, lyssna och dölj en kolumn för att testa dig.',()=>runList(GLOS.map(g=>({fr:gDisp(g),sv:g[1],say:clean(g[0])})),'Hela ordlistan')))]},
+{id:'uttryck',label:'Uttryck',render:()=>[
+  h('h2',null,'Uttrycken (övning 2 och 10)'),h('p',{class:'lead'},'Läraren vill att ni kan övning 2 utantill.'),
+  h('div',{class:'menu'},
+   mi('🃏','Uttryck som kort','Alla 14 uttryck från övning 2.',C(()=>PHRASES.map(p=>({fr:p[1],sv:p[0]})))),
+   mi('✍️','Skriv uttrycken på franska','Svenska visas, du skriver franskan.',Q(()=>gen.phrasesW(14))),
+   mi('🔤','Vad betyder uttrycket?','Franska visas, du väljer svenskan.',Q(()=>gen.phrasesC(14))),
+   mi('🎧','Hörövning','Du hör uttrycket och väljer betydelsen.',Q(()=>gen.phrasesL(14))),
+   mi('📖','Meningarna i övning 10','Översättningarna av de fyra meningarna, som kort.',C(()=>TRANS10)))]},
+{id:'sysslor',label:'Sysslor',render:()=>[
+  h('h2',null,'Hushållssysslor (övning 3 och 5)'),h('p',{class:'lead'},'Många sysslor börjar med faire – men inte alla!'),
+  h('div',{class:'menu'},
+   mi('🃏','Sysslor som kort','De tolv sysslorna från övning 3.',C(()=>CHORES.map(c=>({fr:c.fr,sv:`${c.e} ${c.sv}`})))),
+   mi('✍️','Skriv sysslan på franska','Bild och svenska visas, du skriver franskan.',Q(()=>gen.choresW(12))),
+   mi('🔤','Vilken syssla är det?','Franska visas, du väljer rätt syssla.',Q(()=>gen.choresC(12))),
+   mi('⏱️','Hur ofta? Orden','alltid, ofta, ibland, sällan, aldrig',Q(()=>gen.freqW())),
+   mi('💬','Hur ofta? Meningar','”Jag diskar ofta.” → Je fais souvent la vaisselle.',Q(()=>gen.freqS(8)))),
+  h('div',{class:'rule'},h('p',{class:'fr'},'Je fais souvent la vaisselle.'),h('p',null,'Ordet för hur ofta står efter verbet.'),h('p',{class:'fr'},'Je ne fais jamais la vaisselle.'),h('p',null,'Aldrig = ne före verbet och jamais efter.'))]},
+{id:'ilfaut',label:'Il faut',render:()=>[
+  h('h2',null,'Il faut (övning 10–12)'),
+  h('div',{class:'rule'},h('p',null,h('span',{class:'fr'},'Il faut'),' + infinitiv = man måste / vi måste'),h('p',{class:'fr'},'Il faut faire le ménage. = Vi måste städa.'),h('p',null,h('span',{class:'fr'},'Il ne faut pas'),' + infinitiv = man får inte'),h('p',{class:'fr'},'Il ne faut pas parler fort. = Man får inte prata högt.')),
+  h('div',{class:'menu'},
+   mi('❓','Övning 11: Vad måste man göra när …?','Välj det svar som passar till frågan.',Q(()=>gen.if11(10))),
+   mi('🔗','Övning 12: Para ihop meningarna','Välj rätt slut på meningen.',Q(()=>gen.if12(9))),
+   mi('✍️','Skriv med il faut','”Man måste diska.” → Il faut faire la vaisselle.',Q(()=>gen.ifW(10))),
+   mi('📋','Facit övning 11 och 12','Alla meningar att läsa högt.',()=>runList([...IF11.map(x=>({fr:`Quand ${x[0]} ? ${x[2]}`,sv:`När ${x[1]}? ${x[3]}`,say:`Qu’est-ce qu’il faut faire quand ${x[0]} ? ${x[2]}`})),...IF12.map(x=>({fr:`${x[0]}, ${x[2]}`,sv:`${x[1]} ${x[3].charAt(0).toLowerCase()+x[3].slice(1)}`}))],'Facit övning 11 och 12')))]},
+{id:'verb',label:'Verb',render:()=>[
+  h('h2',null,'Venir, finir och vendre'),h('p',{class:'lead'},'Venir i presens, finir och vendre i passé composé (dåtid).'),
+  h('div',{class:'menu'},
+   mi('📊','Fyll i böjningstabellerna','Alla tre verben, sex former var.',runTables),
+   mi('🎯','Snabbdrill','Pronomen + verb, till exempel ”nous + venir”.',Q(()=>gen.drill(15))),
+   mi('🇸🇪','Från svenska','”Vi har sålt” → nous avons vendu.',Q(()=>gen.svfr(12))),
+   mi('✍️','Venir i meningar (övning 9)','Fyll i rätt form av venir.',Q(()=>gen.venirS(12))),
+   mi('✍️','Finir och vendre i meningar','Fyll i hjälpverb och particip.',Q(()=>gen.pcS(10))),
+   mi('🃏','Böjningarna som kort','Alla former att läsa högt.',C(()=>VERBS.flatMap(v=>v.f.map((f,k)=>({fr:fullForm(PR[[0,1,2,5,6,7][k]],v),sv:`${['jag','du','han','vi','ni','de'][k]} ${v.sv}`})))))),
+  h('div',{class:'rule'},h('p',null,h('span',{class:'fr'},'venir de'),' + infinitiv = just ha gjort något'),h('p',{class:'fr'},'Mon chien vient de mourir. = Min hund har just dött.'))]},
+{id:'hemmet',label:'Rummen',render:()=>[
+  h('h2',null,'Rummen i huset (övning 4)'),h('p',{class:'lead'},'Glöm inte un eller une framför ordet.'),
+  h('div',{class:'menu'},
+   mi('🃏','Rummen som kort','Med un eller une.',C(()=>ROOMS.map(r=>({fr:r.fr,sv:`${r.e} ${r.sv}`})))),
+   mi('✍️','Skriv rummen med un/une','Svarar du utan un/une blir det fel.',Q(()=>gen.rooms(9))),
+   mi('🎧','Hörövning','Du hör rummet och väljer rätt.',Q(()=>gen.roomsL(9))))]},
+{id:'prov',label:'Provträning',render:renderProv}
+];
+
+function renderStart(){
+  const done=lsGet('checks',{});
+  const items=[['Hushållssysslorna (övning 3)','sysslor'],['Uttrycken i övning 2','uttryck'],['Il faut och il ne faut pas (övning 11–12)','ilfaut'],['Venir i presens','verb'],['Finir och vendre i passé composé','verb'],['Glosorna från texten','glosor'],['Rummen med un/une','hemmet']];
+  const last=lsGet('lastTest',null), missed=Object.keys(getMissed()).length;
+  return[
+    h('h2',null,'Det här ska du kunna'),
+    h('p',{class:'lead'},'Bocka av när du känner dig säker.'),
+    h('ul',{class:'check'},items.map(([t,tab],k)=>{const id='c'+k;const li=h('li',{class:done[id]?'done':null});
+      const cb=h('input',{type:'checkbox',id,checked:!!done[id],onchange:()=>{const d=lsGet('checks',{});d[id]=cb.checked;lsSet('checks',d);li.classList.toggle('done',cb.checked)}});
+      li.append(cb,h('label',{for:id},t),h('button',{class:'go',onclick:()=>render(tab)},'Öva'));return li})),
+    h('button',{class:'big-cta',onclick:()=>runQuiz(mixTest,{record:true})},'Gör ett provtest'),
+    missed?h('button',{class:'ghost-cta',onclick:()=>runMissed()},`Öva på det du missat (${missed})`):null,
+    last?h('p',{class:'note'},`Senaste provtest: ${last.score} av ${last.total} rätt.`):null,
+    h('div',{class:'rule'},h('p',null,'Läraren tipsar: lyssna, läs högt och träna glosor och fraser.'),h('p',null,'Tryck på 🔊 och säg efter högt – det tränar både uttal och hörförståelse.'))
+  ];
+}
+function runMissed(){const m=Object.values(getMissed());if(!m.length){toast('Inget missat just nu');return}runQuiz(()=>shuffle(m).slice(0,25))}
+function renderProv(){
+  const missed=Object.keys(getMissed()).length,last=lsGet('lastTest',null);
+  return[
+    h('h2',null,'Provträning'),
+    h('p',{class:'lead'},'25 blandade frågor från hela kapitlet – glosor, uttryck, sysslor, il faut, verb och hörövningar.'),
+    h('button',{class:'big-cta',onclick:()=>runQuiz(mixTest,{record:true})},'Starta provtest'),
+    last?h('p',{class:'note'},`Senaste resultat: ${last.score} av ${last.total} rätt.`):null,
+    h('div',{class:'menu'},
+      mi('🔁','Öva på det du missat',missed?`${missed} frågor som du svarat fel på. De försvinner när du svarar rätt.`:'Här samlas frågor du svarar fel på.',runMissed),
+      mi('🧹','Nollställ','Rensa missade frågor, bockar och resultat på den här enheten.',()=>{if(confirm('Rensa allt sparat på den här enheten?')){lsSet('missed',{});lsSet('checks',{});lsSet('lastTest',null);render('prov')}}))
+  ];
+}
+
+const state={tab:lsGet('tab','start')};
+function render(tab){
+  if(!TABS.find(t=>t.id===tab))tab='start';
+  state.tab=tab;lsSet('tab',tab);
+  try{speechSynthesis.cancel()}catch(e){}
+  document.querySelectorAll('#tabs button').forEach(b=>b.setAttribute('aria-selected',String(b.dataset.tab===tab)));
+  const t=TABS.find(x=>x.id===tab);
+  $('#main').replaceChildren(...t.render().filter(Boolean));
+  window.scrollTo(0,0);
+}
+$('#tabs').append(...TABS.map(t=>h('button',{role:'tab','data-tab':t.id,type:'button',onclick:()=>{render(t.id);document.querySelector(`#tabs [data-tab="${t.id}"]`).scrollIntoView({inline:'center',block:'nearest'})}},t.label)));
+
+/* ---------- Header ---------- */
+(function(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const d=Math.round((TEST_DATE-today)/86400000);
+  const el=$('#countdown');
+  if(d>1)el.append('Provet är onsdag 21 oktober – ',h('b',null,`om ${d} dagar`),'.');
+  else if(d===1)el.append(h('b',null,'Provet är i morgon!'),' Kör ett sista provtest.');
+  else if(d===0)el.append(h('b',null,'Provet är idag – lycka till!'));
+  else el.append('Provet var onsdag 21 oktober.');
+  const sb=$('#soundBtn'),lb=$('#slowBtn');
+  const upd=()=>{sb.setAttribute('aria-pressed',String(soundOn));sb.textContent=soundOn?'🔊 Läs upp franskan':'🔇 Uppläsning av';lb.setAttribute('aria-pressed',String(slow))};
+  sb.onclick=()=>{soundOn=!soundOn;lsSet('sound',soundOn);if(!soundOn)try{speechSynthesis.cancel()}catch(e){};upd()};
+  lb.onclick=()=>{slow=!slow;lsSet('slow',slow);upd();say('Il faut faire le ménage !')};
+  upd();
+})();
+render(state.tab);
+</script>
+</body>
+</html>
